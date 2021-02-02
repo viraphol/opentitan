@@ -1,0 +1,12 @@
+{
+  name: "hello"
+  entries: [
+    {
+      name: smoke
+      desc: '''hello smoke test
+            - just run tb'''
+      milestone: V1
+      tests: ["hello_smoke"]
+    }
+  ]
+}

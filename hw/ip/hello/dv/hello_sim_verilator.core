@@ -1,0 +1,32 @@
+CAPI=2:
+name: "bci:dv_verilator:hello:0.1"
+description: "hello DV sim target"
+filesets:
+  files_rtl:
+    depend:
+        - bci:ip:hello:0.1
+
+  files_dv_verilator:
+    files:
+      - tb/tb.cpp 
+    file_type: cppSource
+  
+
+targets:
+  sim: &sim_target
+    toplevel: hello
+    filesets:
+      - files_dv_verilator
+      - files_rtl
+    default_tool: verilator
+    verilator:
+      mode: cc
+      verilator_options:
+          - '-CFLAGS "-std=c++11 -Wall -g"'
+          - '-Wall'
+
+
+  lint:
+    <<: *sim_target
+
+

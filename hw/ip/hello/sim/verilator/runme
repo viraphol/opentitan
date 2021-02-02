@@ -1,0 +1,17 @@
+#!/bin/bash -x
+  
+RTL_FLIST=../../rtl/hello.sv
+
+DV_FLIST=../../dv/tb/tb.cpp
+
+# cleanup
+rm -rf obj_dir
+
+verilator -Wall --cc ${RTL_FLIST} --exe ${DV_FLIST} 
+
+# build C++ project
+make -j -C obj_dir/ -f Vhello.mk Vhello
+
+# run executable simulation
+obj_dir/Vhello
+

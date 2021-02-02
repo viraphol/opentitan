@@ -5,6 +5,7 @@ __pycache__
 /.vscode
 opentitan-docs
 
+
 # fusesoc result
 build/
 
@@ -44,6 +45,7 @@ novas.conf
 verdiLog/
 ascent_project/
 ascentlint.rpt
+xsim/
 
 # verilator/gtkwave waveforms and wave lists
 *.fst

@@ -1,0 +1,10 @@
+#!/bin/bash -x
+
+export REPO_TOP=/home/viraphol/dev/opentitan
+
+# uncomment to run xsim/vivado
+#$REPO_TOP/util/dvsim/dvsim.py $REPO_TOP/hw/ip/hello/dv/hello_sim_cfg_xsim.hjson
+python -m pdb $REPO_TOP/util/dvsim/dvsim.py $REPO_TOP/hw/ip/hello/dv/hello_sim_cfg_xsim.hjson --verbose=debug
+
+# uncomment to run verilator 
+#$REPO_TOP/util/dvsim/dvsim.py $REPO_TOP/hw/ip/hello/dv/hello_sim_cfg_verilator.hjson

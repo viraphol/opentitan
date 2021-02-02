@@ -2,6 +2,21 @@
 # Copyright lowRISC contributors.
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+# Copyright (C) Belmont Computing, Inc. -- All Rights Reserved
+#
+# NOTICE: All information contained herein is, and remains the property of
+# Belmont Computing, Inc. The intellectual and technical concepts contained
+# herein are proprietary to Belmont Computing, Inc. and may be covered by U.S.
+# and Foreign Patents, patents in process, and are protected by trade secret
+# or copyright law. Dissemination of this information or reproduction of this
+# material is strictly forbidden unless prior written permission is obtained
+# from Belmont Computing, Inc.
+#
+################################################################################
+
+
 """dvsim is a command line tool to deploy ASIC tool flows such as regressions
 for design verification (DV), formal property verification (FPV), linting and
 synthesis.

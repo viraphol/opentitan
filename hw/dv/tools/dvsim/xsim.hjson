@@ -1,0 +1,108 @@
+// Author: bci
+{
+
+  // TODO: how to use common_sim_cfg.hjson
+  // -- START --
+  dv_root:          "{proj_root}/hw/dv"
+  flow:             sim
+  flow_makefile:    "{dv_root}/tools/dvsim/sim.mk"
+
+  import_cfgs:      ["{proj_root}/hw/data/common_project_cfg.hjson",
+                     "{dv_root}/tools/dvsim/common_modes.hjson",
+                     "{dv_root}/tools/dvsim/fusesoc.hjson",
+                     ]
+
+  // Default directory structure for the output
+  build_dir:          "{scratch_path}/{build_mode}"
+  run_dir_name:       "{index}.{test}"
+  run_dir:            "{scratch_path}/{run_dir_name}/out"
+  sw_build_dir:       "{scratch_path}"
+  sw_root_dir:        "{proj_root}/sw"
+
+  regressions: [
+    {
+      name: smoke
+      reseed: 1
+    }
+    {
+      name: all
+    }
+    {
+      name: all_once
+      reseed: 1
+    }
+    {
+      name: nightly
+    }
+  ]
+  // -- END --
+
+  build_cmd:  "{job_prefix} xelab"
+  run_cmd:    "{job_prefix} xsim"
+
+  // TODO: can this be specify as xsim command line ?"
+  pre_run_cmds: ["ln -s {sv_flist_gen_dir}/xsim.dir {run_dir}/xsim.dir "]
+  // -----------------
+
+  // Indicate the tool specific helper sources - these are copied over to the
+  // {tool_srcs_dir} before running the simulation.
+  // tool_srcs:  ["{dv_root}/tools/xsim/*"]
+
+  build_opts: ["{tb}"
+               "-prj {sv_prj}"
+               "-snapshot {fusesoc_core_}"] 
+
+  run_opts:   ["-R {fusesoc_core_}"] 
+
+  // Supported wave dumping formats (in order of preference).
+  supported_wave_formats: ["vcd"]
+
+  // Coverage related.
+  cov_db_dir: ""
+  cov_db_test_dir: ""
+
+
+  // pass and fail patterns
+  build_pass_patterns: []
+  build_fail_patterns: ["\\*E.*$"]
+
+  run_pass_patterns: []
+  run_fail_patterns:   ["\\*E.*$"] // Null pointer error
+
+
+  build_modes: [
+    // TODO support coverage 
+    {
+      name: xsim_waves
+      is_sim_mode: 1
+      build_opts: []
+      run_opts:   []
+    }
+    // TODO support coverage 
+    {
+      name: xsim_cov
+      is_sim_mode: 1
+      build_opts: []
+      run_opts:   []
+    }
+    // TODO support profiling for riviera
+    {
+      name: xsim_profile
+      is_sim_mode: 1
+      build_opts: []
+      run_opts:   []
+    }
+    {
+      name: xsim_xprop
+      is_sim_mode: 1
+      build_opts: []
+    }
+    // TODO: Add build and run options to enable zero delay loop detection.
+    {
+      name: xsim_loopdetect
+      is_sim_mode: 1
+      build_opts: []
+      run_opts:   []
+    }
+  ]
+}

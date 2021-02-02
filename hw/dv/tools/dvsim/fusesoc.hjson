@@ -11,6 +11,8 @@
                        "--build-root={build_dir}",
                        "--setup {fusesoc_core}"]
   fusesoc_cores_root_dirs: ["--cores-root {proj_root}"]
-  sv_flist_gen_dir:   "{build_dir}/sim-vcs"
+  //sv_flist_gen_dir:   "{build_dir}/sim-vcs"
+  sv_flist_gen_dir:   "{build_dir}/sim-{tool}"
   sv_flist:           "{sv_flist_gen_dir}/{fusesoc_core_}.scr"
+  sv_prj:             "{sv_flist_gen_dir}/{fusesoc_core_}.prj"
 }

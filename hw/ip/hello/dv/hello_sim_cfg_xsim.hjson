@@ -1,0 +1,37 @@
+{
+  // Name of the sim cfg - typically same as the name of the DUT.
+  name: hello
+
+  // Top level dut name (sv module).
+  dut: hello
+
+  // Top level testbench name (sv module).
+  tb: tb
+
+  // Simulator used to sign off this block
+  tool: xsim
+
+  // Fusesoc core file used for building the file list.
+  fusesoc_core: bci:dv:hello:0.1
+
+  // Testplan hjson file.
+  testplan: "{proj_root}/hw/ip/hello/data/hello_testplan.hjson"
+
+  // Import additional common sim cfg files.
+  import_cfgs: [ "{proj_root}/hw/dv/tools/dvsim/xsim.hjson"] 
+
+  // List of test specifications.
+  tests: [
+    {
+      name: hello_smoke
+    }
+  ]
+
+  // List of regressions.
+  regressions: [
+    {
+      name: smoke
+      tests: ["hello_smoke"]
+    }
+  ]
+}

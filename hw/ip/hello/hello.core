@@ -1,0 +1,14 @@
+CAPI=2:
+name: "bci:ip:hello:0.1"
+description: "hello"
+filesets:
+  files_rtl:
+    files:
+        - rtl/hello.sv
+    file_type: systemVerilogSource
+
+targets:
+    default: &default_target
+        filesets:
+            - files_rtl
+        toplevel: hello

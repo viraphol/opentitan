@@ -1,0 +1,26 @@
+CAPI=2:
+name: "bci:dv:hello:0.1"
+description: "hello DV sim target"
+filesets:
+  files_rtl:
+    depend:
+        - bci:ip:hello:0.1
+
+  files_dv:
+    files:
+      - tb/tb.sv
+    file_type: systemVerilogSource
+
+
+targets:
+  sim: &sim_target
+    toplevel: tb
+    filesets:
+      - files_rtl
+      - files_dv
+    default_tool: xsim
+
+  lint:
+    <<: *sim_target
+
+
