@@ -25,6 +25,9 @@ VERBOSE = 15
 # Run a command and get the result. Exit with error if the command did not
 # succeed. This is a simpler version of the run_cmd function below.
 def run_cmd(cmd):
+
+    log.debug("Subprocess: " + cmd)
+
     (status, output) = subprocess.getstatusoutput(cmd)
     if status:
         sys.stderr.write("cmd " + cmd + " returned with status " + str(status))
@@ -37,6 +40,9 @@ def run_cmd(cmd):
 # command fails, it throws an exception and returns the stderr.
 def run_cmd_with_timeout(cmd, timeout=-1, exit_on_failure=1):
     args = shlex.split(cmd)
+
+    log.debug ("Subprocess: " + cmd)
+
     p = subprocess.Popen(args,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)

@@ -45,6 +45,13 @@ import subprocess
 import sys
 import textwrap
 
+####
+# remove softlink directory from the sys.path and add the physical path
+sys.path.remove(os.path.dirname(os.path.realpath(__file__)))
+dirname, filename = os.path.split(os.path.abspath(__file__))
+sys.path.insert(0,dirname)
+####
+
 import Deploy
 from Scheduler import Scheduler
 from Timer import Timer
@@ -144,6 +151,8 @@ def resolve_branch(branch):
     if branch is not None:
         return branch
 
+    log.debug("Subprocess: " + ''.join(["git", "rev-parse", "--abbrev-ref", "HEAD"]))
+
     result = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"],
                             stdout=subprocess.PIPE)
     branch = result.stdout.decode("utf-8").strip()
@@ -158,6 +167,9 @@ def resolve_branch(branch):
 # Get the project root directory path - this is used to construct the full paths
 def get_proj_root():
     cmd = ["git", "rev-parse", "--show-toplevel"]
+
+    log.debug("Subprocess: " + ''.join(cmd))
+
     result = subprocess.run(cmd,
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
@@ -232,6 +244,9 @@ def copy_repo(src, dest, dry_run):
         # Make sure the dest exists first.
         os.makedirs(dest, exist_ok=True)
         try:
+
+            log.debug("Subprocess: " + cmd)
+
             subprocess.run(cmd,
                            check=True,
                            stdout=subprocess.PIPE,
@@ -572,6 +587,14 @@ def parse_args():
                      help=("Print dvsim tool messages but don't actually "
                            "run any command"))
 
+    dvg.add_argument("--flow",
+                     nargs="?",
+                     choices=['veriforge', 'lintforge'],
+                     const="veriforge",
+                     metavar="FLOW",
+                     help=("With no argument, select veriforge"))
+                           
+
     args = parser.parse_args()
 
     if args.version:
@@ -604,8 +627,12 @@ def main():
     if args.verbose == "default":
         log_level = utils.VERBOSE
     elif args.verbose == "debug":
+        log_format = '%(levelname)s: [%(filename)s:%(lineno)d] %(message)s'
         log_level = log.DEBUG
     log.basicConfig(format=log_format, level=log_level)
+
+
+    log.debug("sys.path =%s", sys.path)
 
     if not os.path.exists(args.cfg):
         log.fatal("Path to config file %s appears to be invalid.", args.cfg)

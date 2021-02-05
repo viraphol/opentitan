@@ -4,9 +4,8 @@ export REPO_TOP=../../../../../..
 VF=$REPO_TOP/bin/VeriForge
 
 # uncomment to run xsim/vivado
-$VF --verbose=debug $REPO_TOP/test/hw/ip/hello/dv/hello_sim_cfg_xsim.hjson
+$VF $REPO_TOP/tests/hw/ip/hello/dv/hello_sim_cfg_xsim.hjson
 
-# python -m pdb $REPO_TOP/util/dvsim/dvsim.py $REPO_TOP/hw/ip/hello/dv/hello_sim_cfg_xsim.hjson --verbose=debug
+# uncomment to run verilator
+$VF $REPO_TOP/tests/hw/ip/hello/dv/hello_sim_cfg_verilator.hjson
 
-# uncomment to run verilator 
-#$VF --verbose=debug $REPO_TOP/test/hw/ip/hello/dv/hello_sim_cfg_verilator.hjson

@@ -267,6 +267,9 @@ class Deploy():
             f = open(self.log, "w", encoding="UTF-8", errors="surrogateescape")
             f.write("[Executing]:\n{}\n\n".format(self.cmd))
             f.flush()
+
+            log.debug("Subprocess: "+self.cmd)
+
             self.process = subprocess.Popen(args,
                                             bufsize=4096,
                                             universal_newlines=True,
@@ -345,6 +348,9 @@ class Deploy():
         for fail_pattern in self.fail_patterns:
             # Return error message with the following 4 lines.
             grep_cmd = "grep -m 1 -A 4 -E \'" + fail_pattern + "\' " + self.log
+
+            log.debug("Subprocess: "+grep_cmd)
+
             (status, rslt) = subprocess.getstatusoutput(grep_cmd)
             if rslt:
                 msg = "```\n{}\n```\n".format(rslt)
@@ -375,6 +381,9 @@ class Deploy():
         # the run to be considered successful.
         for pass_pattern in self.pass_patterns:
             grep_cmd = "grep -c -m 1 -E \'" + pass_pattern + "\' " + self.log
+
+            log.debug("Subprocess: "+grep_cmd)
+
             (status, rslt) = subprocess.getstatusoutput(grep_cmd)
             if rslt == "0":
                 msg = "Pass pattern {!r} not found.<br>\n".format(pass_pattern)
@@ -437,6 +446,9 @@ class Deploy():
         # and then send SIGKILL if it didn't work.
         self.process.terminate()
         try:
+
+            log.debug("Subprocess: wait")
+
             self.process.wait(timeout=2)
         except subprocess.TimeoutExpired:
             self.process.kill()
@@ -457,10 +469,16 @@ class Deploy():
             # get job id from below string
             # Job <xxxxxx> is submitted to default queue
             grep_cmd = "grep -m 1 -E \'" + "^Job <" + "\' " + self.log
+
+            log.debug("Subprocess: " + grep_cmd)
+
             (status, rslt) = subprocess.getstatusoutput(grep_cmd)
             if rslt != "":
                 job_id = rslt.split('Job <')[1].split('>')[0]
                 try:
+
+                    log.debug("Subprocess: bkill ")
+
                     subprocess.run(["bkill", job_id], check=True)
                 except Exception as e:
                     log.error("%s: Failed to run bkill\n", e)
